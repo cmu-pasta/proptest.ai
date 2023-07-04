@@ -1,7 +1,13 @@
 import './Home.css';
 import './sakura.css';
+import React, { useEffect  } from 'react';
 
 function Home() {
+
+	useEffect(() => {
+		    document.title = 'Proptest AI';
+
+	}, []);
 
   return (
     <div className="Home">

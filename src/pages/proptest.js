@@ -31,6 +31,11 @@ function Proptest(props) {
 
   const options = Object.keys(examples);
 
+	useEffect(() => {
+		    document.title = 'Playground';
+
+	}, []);
+
 
   function queryLambda(methodName, apiDoc, submitButton) {
       submitButton.disabled = true;
