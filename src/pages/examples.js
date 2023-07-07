@@ -72,7 +72,38 @@ Return the total number of seconds contained in the duration. Equivalent to td /
 
 Note that for very large time intervals (greater than 270 years on most platforms) this method will lose microsecond accuracy.
 
-New in version 3.2.`
+New in version 3.2.
+
+Examples of usage: timedelta
+An additional example of normalization:
+
+>>>
+# Components of another_year add up to exactly 365 days
+from datetime import timedelta
+year = timedelta(days=365)
+another_year = timedelta(weeks=40, days=84, hours=23,
+                         minutes=50, seconds=600)
+year == another_year
+True
+year.total_seconds()
+31536000.0
+Examples of timedelta arithmetic:
+
+>>>
+from datetime import timedelta
+year = timedelta(days=365)
+ten_years = 10 * year
+ten_years
+datetime.timedelta(days=3650)
+ten_years.days // 365
+10
+nine_years = ten_years - year
+nine_years
+datetime.timedelta(days=3285)
+three_years = nine_years // 3
+three_years, three_years.days // 365
+(datetime.timedelta(days=1095), 3)
+`
 }
 };
 
