@@ -7,6 +7,10 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import examples from './examples'
 import {Link} from 'react-router-dom';
+import {useScript} from 'usehooks-ts'
+import LoadingSpinner from "../components/LoadingSpinner";
+
+
 
 
 function ApiUrl(props) {
@@ -23,19 +27,60 @@ function ApiUrl(props) {
 
 function Proptest(props) {
   const [code, setCode] = useState("")
-  const [submitButtonDisabled, setSubmitButton] = useState("")
   const [exampleUrl, setExampleUrl] = useState("")
   const [option, setOption] = useState("")
   const [methodName, setMethod] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
   const [apiDoc, setApiDoc] = useState("")
 
   const options = Object.keys(examples);
+  const pyodideStatus = useScript("https://cdn.jsdelivr.net/pyodide/v0.21.2/full/pyodide.js", {
+        removeOnUnmount: false,
 
-	useEffect(() => {
-		    document.title = 'Playground';
+  })
+  const [pyodide, setPyodide] = useState(null);
+  const [pyodideLoaded, setPyodideLoaded] = useState(false);
 
-	}, []);
+  useEffect(() => {
+    document.title = 'Playground';
+    if (pyodideStatus === "ready") {
+          setTimeout(()=>{
+            (async function () {
+              const indexUrl = `https://cdn.jsdelivr.net/pyodide/v0.21.2/full/pyodide.js`
+              const pyodide = await global.loadPyodide({indexUrl});
+              setPyodide(pyodide);
+              await pyodide.loadPackage(["micropip", "pytest", "numpy", "opencv-python"]);
+              const micropip = pyodide.pyimport("micropip");
+              await micropip.install('hypothesis');
+              setPyodideLoaded(true);
+            })();
+          }, 1000)
+        }
+      }, [pyodideStatus]);
 
+  async function callPyodide() {
+    var pythonTest = `import sys
+import io
+sys.stdout = io.StringIO()
+sys.stderr = io.StringIO()
+${code}
+    `
+    const myPython = `
+    import numpy as np
+    import cv2
+    def func():
+        print("HELLO")
+        return np.array2string(5*np.array((1,2,3)))+" |  numpy version: "+np.__version__+"  |  opecv version: "+cv2.__version__
+    func() `;
+    if (pyodideLoaded) {
+      console.log(pyodide);
+      let element = document.getElementById("replace");
+      element.innerHTML = pyodide.runPython(pythonTest);
+      console.log(pyodide);
+    } else {
+      console.log("Pyodide not loaded yet");
+    }
+  }
 
   function queryLambda(methodName, apiDoc, submitButton) {
       submitButton.disabled = true;
@@ -46,7 +91,8 @@ function Proptest(props) {
                                  objectName: "",
                                  apiDoc: apiDoc})
       };
-      setCode("Generating... (will take a few seconds)")
+      setIsLoading(true);
+      setCode("Generating... (will take a few seconds)");
       localStorage.setItem("status", "");
       fetch('https://5ai4ss6llwtocg6boimmm3rila0mknir.lambda-url.us-east-2.on.aws/', requestOptions)
           .then(async response => {
@@ -59,10 +105,13 @@ function Proptest(props) {
                   const error = (data && data.result) || response.status;
                   return Promise.reject(error);
               }
+              setIsLoading(false);
               setCode(data.result)
               submitButton.disabled = false;
           })
           .catch(error => {
+              setIsLoading(false);
+              setCode("Error fetching result! Please try again.")
               console.error('There was an error!', error);
           });
 
@@ -123,11 +172,12 @@ function Proptest(props) {
           <div id="property-test-title">
             <b> Property Test </b>
           </div>
+            {isLoading ? <LoadingSpinner /> :
             <CodeMirror
               className="codeMirror"
               value={code}
               extensions={[python()]}
-            />
+            /> }
         </div>
       </div>
     </div>
