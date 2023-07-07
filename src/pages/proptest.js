@@ -10,9 +10,6 @@ import {Link} from 'react-router-dom';
 import {useScript} from 'usehooks-ts'
 import LoadingSpinner from "../components/LoadingSpinner";
 
-
-
-
 function ApiUrl(props) {
   if (props.url !== "") {
     return (
@@ -43,20 +40,21 @@ function Proptest(props) {
 
   useEffect(() => {
     document.title = 'Playground';
-    if (pyodideStatus === "ready") {
-          setTimeout(()=>{
-            (async function () {
-              const indexUrl = `https://cdn.jsdelivr.net/pyodide/v0.21.2/full/pyodide.js`
-              const pyodide = await global.loadPyodide({indexUrl});
-              setPyodide(pyodide);
-              await pyodide.loadPackage(["micropip", "pytest", "numpy", "opencv-python"]);
-              const micropip = pyodide.pyimport("micropip");
-              await micropip.install('hypothesis');
-              setPyodideLoaded(true);
-            })();
-          }, 1000)
-        }
-      }, [pyodideStatus]);
+    // if (pyodideStatus === "ready") {
+    //       setTimeout(()=>{
+    //         (async function () {
+    //           const indexUrl = `https://cdn.jsdelivr.net/pyodide/v0.21.2/full/pyodide.js`
+    //           const pyodide = await global.loadPyodide({indexUrl});
+    //           setPyodide(pyodide);
+    //           await pyodide.loadPackage(["micropip", "pytest", "numpy", "opencv-python"]);
+    //           const micropip = pyodide.pyimport("micropip");
+    //           await micropip.install('hypothesis');
+    //           setPyodideLoaded(true);
+    //         })();
+    //       }, 1000)
+    //     }
+    //   }, [pyodideStatus]);
+});
 
   async function callPyodide() {
     var pythonTest = `import sys

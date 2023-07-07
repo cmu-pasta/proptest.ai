@@ -1,5 +1,6 @@
 import './Home.css';
 import './sakura.css';
+import example from '../assets/example.gif'
 import React, { useEffect  } from 'react';
 
 function Home() {
@@ -16,6 +17,10 @@ function Home() {
       All you need to provide is the API method name and documentation! These are used to prompt a
       a large language model to synthesize a property test using <a href="https://hypothesis.readthedocs.io/">Hypothesis</a>.
       </p>
+      <img src={example} alt="Playground Example" height="1500"/>
+      <form action="#/playground">
+        <input type="submit" value="Try It Out!"></input>
+      </form>
       <h4> What is Property-Based Testing? </h4>
       <p> Property-based testing is a testing paradigm designed to check properties of a program that should always
       be true. It is especially useful when there is a wide range of inputs to the program that need to be tested
@@ -26,9 +31,6 @@ function Home() {
       Proptest-AI uses a GPT-based language model in the backend to synthesize property tests using the Python library Hypothesis.
       The API method name and documentation are incorporated into the prompt design for the LLM and serve as guidelines for
       the generator logic and the properties to synthesize.
-      <form action="#/playground">
-        <input type="submit" value="Try It Out!"></input>
-      </form>
     </div>
   );
 }
