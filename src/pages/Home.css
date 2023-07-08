@@ -1,10 +1,10 @@
 .Home {
-  max-width: 60%;
+  max-width: 85%;
   margin: auto;
 }
 
 input[type="submit"] {
   width: 100%;
   font-size: 18px;
-  margin-top: 30px;
 }
+

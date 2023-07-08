@@ -9,6 +9,10 @@ import examples from './examples'
 import {Link} from 'react-router-dom';
 import {useScript} from 'usehooks-ts'
 import LoadingSpinner from "../components/LoadingSpinner";
+import Footer from '../components/Footer'
+
+
+
 
 function ApiUrl(props) {
   if (props.url !== "") {
@@ -178,6 +182,7 @@ ${code}
             /> }
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
