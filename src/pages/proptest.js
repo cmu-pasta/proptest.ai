@@ -182,7 +182,7 @@ ${code}
             /> }
         </div>
       </div>
-      <Footer />
+        <Footer />
     </div>
   );
 }

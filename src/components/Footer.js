@@ -17,7 +17,7 @@ function Footer() {
         </div>
         <div className="footerRight">
 				<footer>
-					Developed by: <Link to="https://vasumv.github.io/">Vasu Vikram</Link> and the&nbsp;
+					Developed by <Link to="https://vasumv.github.io/">Vasu Vikram</Link> and the&nbsp;
           <Link to="https://cmu-pasta.github.io/">PASTA Lab</Link> @ Carnegie Mellon University.
 				</footer>
         </div>

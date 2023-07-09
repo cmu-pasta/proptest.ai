@@ -1,28 +1,6 @@
-.container {
-  display: flex;
-  width: 100%;
-  margin: 0 auto;
-  padding: 30px 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.form-container {
-  max-width: 100%;
-  float: left;
-  padding: 50px;
-  box-sizing: border-box;
-  height: auto;
-}
-
 label {
   font-weight: bold;
   margin-bottom: 10px;
-}
-
-.half-width {
-  width: 100%;
 }
 
 input[type="text"], textarea {
@@ -39,23 +17,61 @@ input[type="submit"] {
   font-size: 18px;
 }
 
+.apiform-container {
+  display: block;
+  max-width: 40%;
+  float: left;
+  height: auto;
+}
+
+
 .output-container {
   max-width: 60%;
   float: left;
   height: 100%;
   padding-left: 20px;
+
+}
+
+.container {
+  display: flex;
+  width: 95%;
+  margin: 0 auto;
+  padding: 30px 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+
+@media (max-width: 800px) {
+  h1 {
+    text-align: center;
+  }
+  .container {
+    display: inline-block;
+    padding: 30px 20px;
+    max-width: 90%;
+  }
+  .apiform-container {
+    max-width: 100%;
+    width: 100%;
+  }
+  .output-container {
+    max-width: 100%;
+    width: 100%;
+    padding-left: 0px;
+    padding-bottom: 20px;
+  }
+  .spinner-container {
+    float: center;
+    height: 50px;
+  }
 }
 
 .codeMirror {
   font-size: 12px;
   height: 100%;
-}
-
-.apiform-container {
-  display: block;
-  width: 40%;
-  float: left;
-  height: auto;
 }
 
 #property-test-title {
