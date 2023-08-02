@@ -10,6 +10,7 @@ import {Link} from 'react-router-dom';
 import {useScript} from 'usehooks-ts'
 import LoadingSpinner from "../components/LoadingSpinner";
 import Footer from '../components/Footer'
+import docopt from '../assets/docopt-0.6.2-py2.py3-none-any.whl'
 
 
 
@@ -44,41 +45,41 @@ function Proptest(props) {
 
   useEffect(() => {
     document.title = 'Playground';
-    // if (pyodideStatus === "ready") {
-    //       setTimeout(()=>{
-    //         (async function () {
-    //           const indexUrl = `https://cdn.jsdelivr.net/pyodide/v0.21.2/full/pyodide.js`
-    //           const pyodide = await global.loadPyodide({indexUrl});
-    //           setPyodide(pyodide);
-    //           await pyodide.loadPackage(["micropip", "pytest", "numpy", "opencv-python"]);
-    //           const micropip = pyodide.pyimport("micropip");
-    //           await micropip.install('hypothesis');
-    //           setPyodideLoaded(true);
-    //         })();
-    //       }, 1000)
-    //     }
-    //   }, [pyodideStatus]);
-});
+    if (pyodideStatus === "ready") {
+          setTimeout(()=>{
+            (async function () {
+              const indexUrl = `https://cdn.jsdelivr.net/pyodide/v0.21.2/full/pyodide.js`
+              const pyodide = await global.loadPyodide({indexUrl});
+              setPyodide(pyodide);
+              await pyodide.loadPackage(["micropip"]);
+              await pyodide.loadPackage(docopt);
+              const micropip = pyodide.pyimport("micropip");
+              await micropip.install(['hypothesis', 'pipreqs']);
+              setPyodideLoaded(true);
+            })();
+          }, 1000)
+        }
+      }, [pyodideStatus]);
 
   async function callPyodide() {
-    var pythonTest = `import sys
-import io
-sys.stdout = io.StringIO()
-sys.stderr = io.StringIO()
-${code}
-    `
-    const myPython = `
-    import numpy as np
-    import cv2
-    def func():
-        print("HELLO")
-        return np.array2string(5*np.array((1,2,3)))+" |  numpy version: "+np.__version__+"  |  opecv version: "+cv2.__version__
-    func() `;
     if (pyodideLoaded) {
-      console.log(pyodide);
+      // console.log(pyodide);
       let element = document.getElementById("replace");
-      element.innerHTML = pyodide.runPython(pythonTest);
-      console.log(pyodide);
+      // element.innerHTML = pyodide.runPython(pythonTest);
+      // Execute pipreqs for the specified Python code and get the requirements
+      const cleanedPythonCode = code.replace(/\\/g, "\\\\").replace(/`/g, "\\`");
+    // Prepare the Python code to run pipreqs on a temporary directory
+    const instrumentedCode= `
+import coverage
+${code}
+
+if __name__ == "__main__":
+
+`;
+    const requirementsTxt = await pyodide.runPythonAsync(setupCode);
+
+
+      console.log(requirementsTxt);
     } else {
       console.log("Pyodide not loaded yet");
     }
@@ -104,11 +105,11 @@ ${code}
               // check for error response
               if (!response.ok) {
                   // get error message from body or default to response status
-                  const error = (data && data.result) || response.status;
+                  const error = (data && data.code) || response.status;
                   return Promise.reject(error);
               }
               setIsLoading(false);
-              setCode(data.result)
+              setCode(data.code)
               submitButton.disabled = false;
           })
           .catch(error => {
@@ -175,11 +176,17 @@ ${code}
             <b> Property Test </b>
           </div>
             {isLoading ? <LoadingSpinner /> :
-            <CodeMirror
-              className="codeMirror"
-              value={code}
-              extensions={[python()]}
-            /> }
+            <div>
+              <CodeMirror
+                className="codeMirror"
+                value={code}
+                extensions={[python()]}
+              />
+              <form onSubmit={callPyodide}>
+                <input type="submit" name="runbutton" value="Run"></input>
+              </form>
+            </div>
+            }
         </div>
       </div>
         <Footer />
