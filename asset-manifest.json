@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.05a6d628.css",
-    "main.js": "/static/js/main.131c810e.js",
+    "main.js": "/static/js/main.325fdc2e.js",
     "static/js/787.9db7fbb3.chunk.js": "/static/js/787.9db7fbb3.chunk.js",
     "static/media/example.gif": "/static/media/example.487ea6d465e028c4aefb.gif",
     "static/media/pasta-logo.png": "/static/media/pasta-logo.d43c3ed12aec83bc28aa.png",
     "index.html": "/index.html",
     "main.05a6d628.css.map": "/static/css/main.05a6d628.css.map",
-    "main.131c810e.js.map": "/static/js/main.131c810e.js.map",
+    "main.325fdc2e.js.map": "/static/js/main.325fdc2e.js.map",
     "787.9db7fbb3.chunk.js.map": "/static/js/787.9db7fbb3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.05a6d628.css",
-    "static/js/main.131c810e.js"
+    "static/js/main.325fdc2e.js"
   ]
 }
