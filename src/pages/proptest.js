@@ -114,6 +114,7 @@ ${code}
           .catch(error => {
               setIsLoading(false);
               setCode("Error fetching result! Please try again.")
+              submitButton.disabled = false;
               console.error('There was an error!', error);
           });
 
