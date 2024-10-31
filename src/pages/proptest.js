@@ -96,7 +96,7 @@ ${code}
       setIsLoading(true);
       setCode("Generating... (will take a few seconds)");
       localStorage.setItem("status", "");
-      fetch('https://zbqj3xawozt5zduulokocpnmqq0dubom.lambda-url.us-east-2.on.aws/', requestOptions)
+      fetch('https://5ai4ss6llwtocg6boimmm3rila0mknir.lambda-url.us-east-2.on.aws/', requestOptions)
           .then(async response => {
               const isJson = response.headers.get('content-type')?.includes('application/json');
               const data = isJson && await response.json();
